@@ -17,31 +17,44 @@ const log = log4js.getLogger(thisModule);
 log.setLevel('TRACE');
 
 const firmata = require("firmata");
+const RDDAPI = require("../lib/HelloAPI");
 
 const portName = "COM46";
 
-/**
- * Exercise the HelloAPI module and a Firmata-attached Arduino with
- * a DDHello LuniLib device driver.
- */
+let api;
+let handle;
 
 let hook = {
+
   cbNewBoard: function() {
     log.debug(`Board is ready.`);
+    opts = {board: fbrd};
+    api = new RDDAPI.HelloAPI(opts);
+    api.open("Hello:0",1,0,hook.cbOpen);
+  },
+
+  cbOpen: function(response) {
+    if (response.status >= 0) {
+      log.debug(`Status value from open() is ${response.status}`);
+      handle = response.status;
+      api.close(handle,0,hook.cbClose);
+    } else {
+      log.error(`Error value from open() is ${response.status}`);
+    }
+  },
+
+  cbClose: function(response) {
+    if (response.status >= 0) {
+      log.debug(`Status value from close() is ${response.status}`);
+    } else {
+      log.error(`Error value from open() is ${response.status}`);
+    }
   }
 };
 
-const opts = {};
+let opts = {};
 const fbrd = new firmata.Board(portName,opts,hook.cbNewBoard);
-
-// opts = {unit:"HW:0", board: fbrd};
-// const api = new HelloAPI(opts);
 
 // api.getGreeting(response);
 
 // Console.log(response);
-
-// api.close();
-
-
-
