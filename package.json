@@ -1,7 +1,7 @@
 {
   "name": "lunijs",
   "version": "0.8.0",
-  "description": "Javascript client for LuniLib device drivers on an Arduino.",
+  "description": "Javascript client for Arduino LuniLib device drivers.",
   "main": "lunijs.js",
   "scripts": {
     "test": "node lunijs.js"
