@@ -61,7 +61,7 @@ hook.push((response) => {
         api.getGreeting(handle,hook[2]);
       } else {
         loopIndex = 0;
-        api.setGreeting(handle, "blah,blah",hook[3]);
+        api.setGreeting(handle, "blah, blah",hook[3]);
       }
     } else {
       log.error(`Error value from getGreeting() is ${response.status}`);
@@ -100,7 +100,7 @@ hook.push((response) => {
 
       switch (++loopIndex) {
         case lastLoop-1:
-          api.setGreeting(handle, "Goodbye,à bientôt",hook[6]);
+          api.setGreeting(handle, "Goodbye, until we meet again",hook[6]);
           break;
 
         case lastLoop:
