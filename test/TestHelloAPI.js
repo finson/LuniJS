@@ -14,7 +14,7 @@ const rddCmd = require("../lib/RDDCommand");
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
 const log = log4js.getLogger(thisModule);
-log.setLevel('TRACE');
+log.setLevel('INFO');
 
 const firmata = require("firmata");
 const RDDAPI = require("../lib/HelloAPI");
