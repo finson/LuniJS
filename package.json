@@ -1,29 +1,33 @@
 {
-  "name": "lunijs",
-  "version": "0.8.0",
-  "description": "Javascript client for Arduino LuniLib device drivers.",
-  "main": "lunijs.js",
-  "scripts": {
-    "test": "node lunijs.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/finson/LuniJS.git"
-  },
-  "keywords": [
-    "javascript",
-    "LuniLib",
-    "firmata",
-    "client",
-    "RDD",
-    "device",
-    "driver",
-    "Arduino"
-  ],
-  "author": "Doug Johnson <finson@whidbey.com>",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/finson/LuniJS/issues"
-  },
-  "homepage": "https://github.com/finson/LuniJS#readme"
+   "author" : "Doug Johnson <finson@whidbey.com>",
+   "bugs" : {
+      "url" : "https://github.com/finson/LuniJS/issues"
+   },
+   "dependencies" : {
+      "firmata" : ">=0.11",
+      "log4js" : ">=0.6"
+   },
+   "description" : "Javascript client for Arduino LuniLib device drivers.",
+   "homepage" : "https://github.com/finson/LuniJS#readme",
+   "keywords" : [
+      "javascript",
+      "LuniLib",
+      "firmata",
+      "client",
+      "RDD",
+      "device",
+      "driver",
+      "Arduino"
+   ],
+   "license" : "GPL-3.0",
+   "main" : "lunijs.js",
+   "name" : "lunijs",
+   "repository" : {
+      "type" : "git",
+      "url" : "git+https://github.com/finson/LuniJS.git"
+   },
+   "scripts" : {
+      "test" : "node lunijs.js"
+   },
+   "version" : "0.8.0"
 }
