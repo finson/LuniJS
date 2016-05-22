@@ -20,41 +20,117 @@ const firmata = require("firmata");
 const RDDAPI = require("../lib/HelloAPI");
 
 const portName = "COM46";
+const unitName = "Hello:0";
 
 let api;
 let handle;
+const lastLoop = 3;
+let loopIndex = 0;
 
-let hook = {
+let hook = [];
 
-  cbNewBoard: function() {
+// 0.  Process board ready event, begin open() query
+
+hook.push(() => {
     log.debug(`Board is ready.`);
     opts = {board: fbrd};
     api = new RDDAPI.HelloAPI(opts);
-    api.open("Hello:0",1,0,hook.cbOpen);
-  },
+    api.open(unitName,1,0,hook[1]);
+  });
 
-  cbOpen: function(response) {
+// 1.  Process open() response, begin getGreeting query
+
+hook.push((response) => {
     if (response.status >= 0) {
       log.debug(`Status value from open() is ${response.status}`);
       handle = response.status;
-      api.close(handle,0,hook.cbClose);
+      api.getGreeting(handle,hook[2]);
     } else {
       log.error(`Error value from open() is ${response.status}`);
     }
-  },
+  });
 
-  cbClose: function(response) {
+// 2.  Process getGreeting response, loop getGreeting query a few times, then
+//      initiate setGreeting
+
+hook.push((response) => {
+    if (response.status >= 0) {
+      log.debug(`Status value from getGreeting() is ${response.status}`);
+      log.info(`${unitName} says ${response.datablock}`);
+      if (++loopIndex < lastLoop) {
+        api.getGreeting(handle,hook[2]);
+      } else {
+        loopIndex = 0;
+        api.setGreeting(handle, "blah,blah",hook[3]);
+      }
+    } else {
+      log.error(`Error value from getGreeting() is ${response.status}`);
+    }
+  });
+
+// 3.  Process setGreeting response, then initiate setInterval
+
+hook.push((response) => {
+    if (response.status >= 0) {
+      log.debug(`Status value from setGreeting() is ${response.status}`);
+      api.setInterval(handle,1000,hook[4]);
+    } else {
+      log.error(`Error value from setGreeting() is ${response.status}`);
+    }
+  });
+
+// 4.  Process setInterval response, then initiate beginContinuousGreeting
+
+hook.push((response) => {
+    if (response.status >= 0) {
+      log.debug(`Status value from setInterval() is ${response.status}`);
+      api.beginContinuousGreeting(handle,hook[5]);
+    } else {
+      log.error(`Error value from setInterval() is ${response.status}`);
+    }
+  });
+
+// 5.  Process beginContinuousGreeting response, loop getContinuousGreeting a
+//     few times, then initiate setGreeting again.
+
+hook.push((response) => {
+    if (response.status >= 0) {
+      log.debug(`Status value from getContinuousGreeting() is ${response.status}`);
+      log.info(`${unitName} says ${response.datablock}`);
+
+      switch (++loopIndex) {
+        case lastLoop-1:
+          api.setGreeting(handle, "Goodbye,à bientôt",hook[6]);
+          break;
+
+        case lastLoop:
+          api.close(handle,0,hook[7]);
+          break;
+      }
+    } else {
+      log.error(`Error value from getContinuousGreeting() is ${response.status}`);
+    }
+  });
+
+// 6.  Process setGreeting response
+
+hook.push((response) => {
+    if (response.status >= 0) {
+      log.debug(`Status value from setGreeting() is ${response.status}`);
+    } else {
+      log.error(`Error value from setGreeting() is ${response.status}`);
+    }
+  });
+
+// 7.  Process close() response
+
+hook.push((response) => {
     if (response.status >= 0) {
       log.debug(`Status value from close() is ${response.status}`);
     } else {
-      log.error(`Error value from open() is ${response.status}`);
+      log.error(`Error value from close() is ${response.status}`);
     }
-  }
-};
+  });
 
 let opts = {};
-const fbrd = new firmata.Board(portName,opts,hook.cbNewBoard);
-
-// api.getGreeting(response);
-
-// Console.log(response);
+const fbrd = new firmata.Board(portName,opts,hook[0]);
