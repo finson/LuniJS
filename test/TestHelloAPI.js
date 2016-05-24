@@ -8,129 +8,160 @@
 const log4js = require("log4js");
 
 const RDD = require("../lib/RemoteDeviceDriver");
-const rddErr = require("../lib/RDDStatus");
-const rddCmd = require("../lib/RDDCommand");
+const RDDErr = require("../lib/RDDStatus");
+const RDDCmd = require("../lib/RDDCommand");
+const RDDAPI = require("../lib/HelloAPI");
 
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
 const log = log4js.getLogger(thisModule);
-log.setLevel('INFO');
+log.setLevel('TRACE');
 
 const firmata = require("firmata");
-const RDDAPI = require("../lib/HelloAPI");
 
 const portName = "COM46";
 const unitName = "Hello:0";
 
+let firmataBoard;
+let proxyRDD;
 let api;
+
 let handle;
 const lastLoop = 3;
 let loopIndex = 0;
+let nxtCB = 0;
+let opts;
+let init = [];
 
-let hook = [];
+// Set up the callback chain
 
-// 0.  Process board ready event, begin open() query
+init.push(() => {
+  opts = {};
+  firmataBoard = new firmata.Board(portName,opts,init[1]);
+});
 
-hook.push(() => {
-    log.debug(`Board is ready.`);
-    opts = {board: fbrd};
-    api = new RDDAPI.HelloAPI(opts);
-    api.open(unitName,1,0,hook[1]);
+init.push(() => {
+  log.debug(`Board is ready.`);
+  opts = {board: firmataBoard};
+  proxyRDD = new RDD.RemoteDeviceDriver(opts);
+  log.debug(`RemoteDeviceDriver is ready.`);
+  start(proxyRDD);
+});
+
+const start = function(proxyRDD) {
+
+  api = new RDDAPI.HelloAPI({driver : proxyRDD});
+  log.debug(`HelloAPI is created.`);
+
+  api.on("open", (apiReponseData) => {
+    log.info(`Opened ${apiReponseData.unitName} with handle ${apiReponseData.handle}.`);
   });
 
-// 1.  Process open() response, begin getGreeting query
-
-hook.push((response) => {
-    if (response.status >= 0) {
-      log.debug(`Status value from open() is ${response.status}`);
-      handle = response.status;
-      api.getGreeting(handle,hook[2]);
-    } else {
-      log.error(`Error value from open() is ${response.status}`);
-    }
+  api.on("error", (apiError) => {
+    log.error(apiError);
   });
 
-// 2.  Process getGreeting response, loop getGreeting query a few times, then
-//      initiate setGreeting
-
-hook.push((response) => {
-    if (response.status >= 0) {
-      log.debug(`Status value from getGreeting() is ${response.status}`);
-      log.info(`${unitName} says ${response.datablock}`);
-      if (++loopIndex < lastLoop) {
-        api.getGreeting(handle,hook[2]);
-      } else {
-        loopIndex = 0;
-        api.setGreeting(handle, "blah, blah",hook[3]);
-      }
-    } else {
-      log.error(`Error value from getGreeting() is ${response.status}`);
-    }
+  api.on("data",(apiReponseData) => {
+    log.info(apiReponseData);
   });
 
-// 3.  Process setGreeting response, then initiate setInterval
+  api.open(unitName,RDDCmd.DAF.FORCE,0);
+};
 
-hook.push((response) => {
-    if (response.status >= 0) {
-      log.debug(`Status value from setGreeting() is ${response.status}`);
-      api.setInterval(handle,1000,hook[4]);
-    } else {
-      log.error(`Error value from setGreeting() is ${response.status}`);
-    }
-  });
 
-// 4.  Process setInterval response, then initiate beginContinuousGreeting
+// // 1.  Process open() response, begin getGreeting query
 
-hook.push((response) => {
-    if (response.status >= 0) {
-      log.debug(`Status value from setInterval() is ${response.status}`);
-      api.beginContinuousGreeting(handle,hook[5]);
-    } else {
-      log.error(`Error value from setInterval() is ${response.status}`);
-    }
-  });
+// hook.push((response) => {
+//     if (response.status >= 0) {
+//       log.debug(`Status value from open() is ${response.status}`);
+//       handle = response.status;
+//       api.getGreeting(handle,hook[2]);
+//     } else {
+//       log.error(`Error value from open() is ${response.status}`);
+//     }
+//   });
 
-// 5.  Process beginContinuousGreeting response, loop getContinuousGreeting a
-//     few times, then initiate setGreeting again.
+// // 2.  Process getGreeting response, loop getGreeting query a few times, then
+// //      initiate setGreeting
 
-hook.push((response) => {
-    if (response.status >= 0) {
-      log.debug(`Status value from getContinuousGreeting() is ${response.status}`);
-      log.info(`${unitName} says ${response.datablock}`);
+// hook.push((response) => {
+//     if (response.status >= 0) {
+//       log.debug(`Status value from getGreeting() is ${response.status}`);
+//       log.info(`${unitName} says ${response.datablock}`);
+//       if (++loopIndex < lastLoop) {
+//         api.getGreeting(handle,hook[2]);
+//       } else {
+//         loopIndex = 0;
+//         api.setGreeting(handle, "blah, blah",hook[3]);
+//       }
+//     } else {
+//       log.error(`Error value from getGreeting() is ${response.status}`);
+//     }
+//   });
 
-      switch (++loopIndex) {
-        case lastLoop-1:
-          api.setGreeting(handle, "Goodbye, until we meet again",hook[6]);
-          break;
+// // 3.  Process setGreeting response, then initiate setInterval
 
-        case lastLoop:
-          api.close(handle,0,hook[7]);
-          break;
-      }
-    } else {
-      log.error(`Error value from getContinuousGreeting() is ${response.status}`);
-    }
-  });
+// hook.push((response) => {
+//     if (response.status >= 0) {
+//       log.debug(`Status value from setGreeting() is ${response.status}`);
+//       api.setInterval(handle,1000,hook[4]);
+//     } else {
+//       log.error(`Error value from setGreeting() is ${response.status}`);
+//     }
+//   });
 
-// 6.  Process setGreeting response
+// // 4.  Process setInterval response, then initiate beginContinuousGreeting
 
-hook.push((response) => {
-    if (response.status >= 0) {
-      log.debug(`Status value from setGreeting() is ${response.status}`);
-    } else {
-      log.error(`Error value from setGreeting() is ${response.status}`);
-    }
-  });
+// hook.push((response) => {
+//     if (response.status >= 0) {
+//       log.debug(`Status value from setInterval() is ${response.status}`);
+//       api.beginContinuousGreeting(handle,hook[5]);
+//     } else {
+//       log.error(`Error value from setInterval() is ${response.status}`);
+//     }
+//   });
 
-// 7.  Process close() response
+// // 5.  Process beginContinuousGreeting response, loop getContinuousGreeting a
+// //     few times, then initiate setGreeting again.
 
-hook.push((response) => {
-    if (response.status >= 0) {
-      log.debug(`Status value from close() is ${response.status}`);
-    } else {
-      log.error(`Error value from close() is ${response.status}`);
-    }
-  });
+// hook.push((response) => {
+//     if (response.status >= 0) {
+//       log.debug(`Status value from getContinuousGreeting() is ${response.status}`);
+//       log.info(`${unitName} says ${response.datablock}`);
 
-let opts = {};
-const fbrd = new firmata.Board(portName,opts,hook[0]);
+//       switch (++loopIndex) {
+//         case lastLoop-1:
+//           api.setGreeting(handle, "Goodbye, until we meet again",hook[6]);
+//           break;
+
+//         case lastLoop:
+//           api.close(handle,0,hook[7]);
+//           break;
+//       }
+//     } else {
+//       log.error(`Error value from getContinuousGreeting() is ${response.status}`);
+//     }
+//   });
+
+// // 6.  Process setGreeting response
+
+// hook.push((response) => {
+//     if (response.status >= 0) {
+//       log.debug(`Status value from setGreeting() is ${response.status}`);
+//     } else {
+//       log.error(`Error value from setGreeting() is ${response.status}`);
+//     }
+//   });
+
+// // 7.  Process close() response
+
+// hook.push((response) => {
+//     if (response.status >= 0) {
+//       log.debug(`Status value from close() is ${response.status}`);
+//     } else {
+//       log.error(`Error value from close() is ${response.status}`);
+//     }
+//   });
+
+
+init[0]();
