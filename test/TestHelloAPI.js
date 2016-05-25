@@ -33,7 +33,7 @@ let nxtCB = 0;
 let opts;
 let init = [];
 
-// Set up the callback chain
+// Set up the initialization callback chain
 
 init.push(() => {
   opts = {};
@@ -55,13 +55,15 @@ const start = function(proxyRDD) {
 
   api.on("open", (apiReponseData) => {
     log.info(`Opened ${apiReponseData.unitName} with handle ${apiReponseData.handle}.`);
+    handle = apiReponseData.handle;
+    api.getGreeting(handle);
   });
 
   api.on("error", (apiError) => {
     log.error(apiError);
   });
 
-  api.on("data",(apiReponseData) => {
+  api.on("read",(apiReponseData) => {
     log.info(apiReponseData);
   });
 
@@ -69,17 +71,17 @@ const start = function(proxyRDD) {
 };
 
 
-// // 1.  Process open() response, begin getGreeting query
+//*// 1.  Process open() response, begin getGreeting query
 
-// hook.push((response) => {
-//     if (response.status >= 0) {
-//       log.debug(`Status value from open() is ${response.status}`);
-//       handle = response.status;
-//       api.getGreeting(handle,hook[2]);
-//     } else {
-//       log.error(`Error value from open() is ${response.status}`);
-//     }
-//   });
+//*hook.push((response) => {
+//*    if (response.status >= 0) {
+//*      log.debug(`Status value from open() is ${response.status}`);
+//*      handle = response.status;
+//*      api.getGreeting(handle,hook[2]);
+//*    } else {
+//*      log.error(`Error value from open() is ${response.status}`);
+//*    }
+//*  });
 
 // // 2.  Process getGreeting response, loop getGreeting query a few times, then
 // //      initiate setGreeting
