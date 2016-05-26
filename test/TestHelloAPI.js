@@ -18,6 +18,7 @@ const log = log4js.getLogger(thisModule);
 log.setLevel('TRACE');
 
 const firmata = require("firmata");
+const EventEmitter = require('events');
 
 const portName = "COM46";
 const unitName = "Hello:0";
@@ -25,81 +26,109 @@ const unitName = "Hello:0";
 let firmataBoard;
 let proxyRDD;
 let api;
+let sequencer = new EventEmitter();
 
 let handle;
 const lastLoop = 3;
 let loopIndex = 0;
-let nxtCB = 0;
+let pc;
 let opts;
-let init = [];
 
-// Set up the initialization callback chain
+// Set up for initialization
 
-init.push(() => {
+const init = () => {
   opts = {};
-  firmataBoard = new firmata.Board(portName,opts,init[1]);
-});
+  firmataBoard = new firmata.Board(portName,opts,() => {
+    log.debug(`Board is ready.`);
 
-init.push(() => {
-  log.debug(`Board is ready.`);
-  opts = {board: firmataBoard};
-  proxyRDD = new RDD.RemoteDeviceDriver(opts);
-  log.debug(`RemoteDeviceDriver is ready.`);
-  start(proxyRDD);
-});
+    opts = {board: firmataBoard};
+    proxyRDD = new RDD.RemoteDeviceDriver(opts);
+    log.debug(`RemoteDeviceDriver is ready.`);
 
-const start = function(proxyRDD) {
+    api = new RDDAPI.HelloAPI({driver : proxyRDD});
+    log.debug(`HelloAPI is created.`);
 
-  api = new RDDAPI.HelloAPI({driver : proxyRDD});
-  log.debug(`HelloAPI is created.`);
-
-  api.on("open", (apiReponseData) => {
-    log.info(`Opened ${apiReponseData.unitName} with handle ${apiReponseData.handle}.`);
-    handle = apiReponseData.handle;
-    api.getGreeting(handle);
+    start();
   });
+};
 
+// Set up for processing events and stepping through the work to be done.
+
+const start = function() {
   api.on("error", (apiError) => {
     log.error(apiError);
   });
 
-  api.on("read",(apiReponseData) => {
-    log.info(apiReponseData);
+  api.on("open", (apiResult) => {
+    handle = apiResult.handle;
+    sequencer.emit("step",apiResult);
   });
 
-  api.open(unitName,RDDCmd.DAF.FORCE,0);
+  api.on("read",(apiResult) => {
+    sequencer.emit("step",apiResult);
+  });
+
+  api.on("write",(apiResult) => {
+    sequencer.emit("step",apiResult);
+  });
+
+  api.on("close",(apiResult) => {
+    sequencer.emit("step",apiResult);
+  });
+
+  sequencer.on("step", (apiResult) => {
+    if (++pc < step.length) {
+     step[pc](apiResult);
+    } else {
+      log.info(`Reached step ${pc} of ${step.length}.  Done.`);
+    }
+  });
+
+  pc = 0;
+  step[0](null);
 };
 
+// Everything has been opened and we have a handle by the time this step
+// sequence is started.  Assuming that each of the following step functions
+// will result in one of the events captured above, we will progress through
+// the following async steps in order.
 
-//*// 1.  Process open() response, begin getGreeting query
+let step = [
 
-//*hook.push((response) => {
-//*    if (response.status >= 0) {
-//*      log.debug(`Status value from open() is ${response.status}`);
-//*      handle = response.status;
-//*      api.getGreeting(handle,hook[2]);
-//*    } else {
-//*      log.error(`Error value from open() is ${response.status}`);
-//*    }
-//*  });
+(apiResult) => {
+  log.info(`${pc}: Begin step processing.`);
+  api.open(unitName,RDDCmd.DAF.FORCE,0);
+},
 
-// // 2.  Process getGreeting response, loop getGreeting query a few times, then
-// //      initiate setGreeting
+(apiResult) => {
+  log.info(`${pc}: Opened ${apiResult.unitName} with handle ${apiResult.handle}.`);
+  api.getGreeting(handle);
+},
 
-// hook.push((response) => {
-//     if (response.status >= 0) {
-//       log.debug(`Status value from getGreeting() is ${response.status}`);
-//       log.info(`${unitName} says ${response.datablock}`);
-//       if (++loopIndex < lastLoop) {
-//         api.getGreeting(handle,hook[2]);
-//       } else {
-//         loopIndex = 0;
-//         api.setGreeting(handle, "blah, blah",hook[3]);
-//       }
-//     } else {
-//       log.error(`Error value from getGreeting() is ${response.status}`);
-//     }
-//   });
+(apiResult) => {
+  log.info(`${pc}: ${unitName} says ${apiResult.data}`);
+  api.getGreeting(handle);
+},
+
+(apiResult) => {
+  log.info(`${pc}: ${unitName} says ${apiResult.data}`);
+  api.setGreeting(handle, "blah, blah");
+},
+
+(apiResult) => {
+  log.info(`${pc}: New greeting has been set.`);
+  api.getGreeting(handle);
+},
+
+(apiResult) => {
+  log.info(`${pc}: ${unitName} says ${apiResult.data}`);
+  api.close(handle);
+}
+];
+
+// Start the engine running
+
+init();
 
 // // 3.  Process setGreeting response, then initiate setInterval
 
@@ -165,5 +194,3 @@ const start = function(proxyRDD) {
 //     }
 //   });
 
-
-init[0]();
