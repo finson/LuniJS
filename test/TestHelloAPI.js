@@ -29,12 +29,10 @@ let api;
 let sequencer = new EventEmitter();
 
 let handle;
-const lastLoop = 3;
-let loopIndex = 0;
 let pc;
 let opts;
 
-// Set up for initialization
+// Set up
 
 const init = () => {
   opts = {};
@@ -48,44 +46,39 @@ const init = () => {
     api = new RDDAPI.HelloAPI({driver : proxyRDD});
     log.debug(`HelloAPI is created.`);
 
-    start();
-  });
-};
+    api.on("error", (apiError) => {
+      log.error(apiError);
+    });
 
-// Set up for processing events and stepping through the work to be done.
+    api.on("open", (apiResult) => {
+      handle = apiResult.handle;
+      sequencer.emit("step",apiResult);
+    });
 
-const start = function() {
-  api.on("error", (apiError) => {
-    log.error(apiError);
-  });
+    api.on("read",(apiResult) => {
+      sequencer.emit("step",apiResult);
+    });
 
-  api.on("open", (apiResult) => {
-    handle = apiResult.handle;
-    sequencer.emit("step",apiResult);
-  });
+    api.on("write",(apiResult) => {
+      sequencer.emit("step",apiResult);
+    });
 
-  api.on("read",(apiResult) => {
-    sequencer.emit("step",apiResult);
-  });
+    api.on("close",(apiResult) => {
+      sequencer.emit("step",apiResult);
+    });
 
-  api.on("write",(apiResult) => {
-    sequencer.emit("step",apiResult);
-  });
-
-  api.on("close",(apiResult) => {
-    sequencer.emit("step",apiResult);
-  });
-
-  sequencer.on("step", (apiResult) => {
-    if (++pc < step.length) {
-     step[pc](apiResult);
-    } else {
-      log.info(`Reached step ${pc} of ${step.length}.  Done.`);
-    }
-  });
+    sequencer.on("step", (apiResult) => {
+      if (++pc < step.length) {
+       step[pc](apiResult);
+      } else {
+        log.info(`Completed all steps.  Goodbye.`);
+        firmataBoard.transport.close();
+      }
+    });
 
   pc = 0;
   step[0](null);
+  });
 };
 
 // Everything has been opened and we have a handle by the time this step
@@ -122,24 +115,23 @@ let step = [
 
 (apiResult) => {
   log.info(`${pc}: ${unitName} says ${apiResult.data}`);
+  api.setIntervals(handle,null,1000);
+},
+
+(apiResult) => {
+  log.info(`${pc}: New intervals have been set.`);
   api.close(handle);
+},
+
+(apiResult) => {
+  log.info(`${pc}: Closed handle ${apiResult.handle}.`);
+  sequencer.emit("step",apiResult);
 }
 ];
 
 // Start the engine running
 
 init();
-
-// // 3.  Process setGreeting response, then initiate setInterval
-
-// hook.push((response) => {
-//     if (response.status >= 0) {
-//       log.debug(`Status value from setGreeting() is ${response.status}`);
-//       api.setInterval(handle,1000,hook[4]);
-//     } else {
-//       log.error(`Error value from setGreeting() is ${response.status}`);
-//     }
-//   });
 
 // // 4.  Process setInterval response, then initiate beginContinuousGreeting
 
@@ -173,24 +165,3 @@ init();
 //       log.error(`Error value from getContinuousGreeting() is ${response.status}`);
 //     }
 //   });
-
-// // 6.  Process setGreeting response
-
-// hook.push((response) => {
-//     if (response.status >= 0) {
-//       log.debug(`Status value from setGreeting() is ${response.status}`);
-//     } else {
-//       log.error(`Error value from setGreeting() is ${response.status}`);
-//     }
-//   });
-
-// // 7.  Process close() response
-
-// hook.push((response) => {
-//     if (response.status >= 0) {
-//       log.debug(`Status value from close() is ${response.status}`);
-//     } else {
-//       log.error(`Error value from close() is ${response.status}`);
-//     }
-//   });
-
