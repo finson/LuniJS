@@ -22,6 +22,7 @@ const EventEmitter = require('events');
 
 const portName = "COM46";
 const unitName = "Hello:0";
+const exitAtEnd = false;
 
 let firmataBoard;
 let proxyRDD;
@@ -59,6 +60,11 @@ const init = () => {
       sequencer.emit("step",apiResult);
     });
 
+    api.on("read-continuous",(apiResult) => {
+      log.info(`read-continuous: ${apiResult.data}`);
+      sequencer.emit("step",apiResult);
+    });
+
     api.on("write",(apiResult) => {
       sequencer.emit("step",apiResult);
     });
@@ -68,11 +74,17 @@ const init = () => {
     });
 
     sequencer.on("step", (apiResult) => {
-      if (++pc < step.length) {
-       step[pc](apiResult);
-      } else {
-        log.info(`Completed all steps.  Goodbye.`);
-        firmataBoard.transport.close();
+      if (pc !== step.length) {
+        pc += 1;
+        if (pc < step.length) {
+         step[pc](apiResult);
+        } else {
+          log.info(`${pc}: Completed all steps.`);
+          if (exitAtEnd) {
+            log.info(`Goodbye.`);
+            firmataBoard.transport.close();
+          }
+        }
       }
     });
 
@@ -120,12 +132,17 @@ let step = [
 
 (apiResult) => {
   log.info(`${pc}: New intervals have been set.`);
-  api.close(handle);
+  api.getContinuousGreeting(handle);
 },
 
 (apiResult) => {
-  log.info(`${pc}: Closed handle ${apiResult.handle}.`);
-  sequencer.emit("step",apiResult);
+  log.info(`${pc}: Continuous greeting started.`);
+//   api.close(handle);
+// },
+
+// (apiResult) => {
+//   log.info(`${pc}: Closed handle ${apiResult.handle}.`);
+//   sequencer.emit("step",apiResult);
 }
 ];
 
@@ -133,35 +150,3 @@ let step = [
 
 init();
 
-// // 4.  Process setInterval response, then initiate beginContinuousGreeting
-
-// hook.push((response) => {
-//     if (response.status >= 0) {
-//       log.debug(`Status value from setInterval() is ${response.status}`);
-//       api.beginContinuousGreeting(handle,hook[5]);
-//     } else {
-//       log.error(`Error value from setInterval() is ${response.status}`);
-//     }
-//   });
-
-// // 5.  Process beginContinuousGreeting response, loop getContinuousGreeting a
-// //     few times, then initiate setGreeting again.
-
-// hook.push((response) => {
-//     if (response.status >= 0) {
-//       log.debug(`Status value from getContinuousGreeting() is ${response.status}`);
-//       log.info(`${unitName} says ${response.datablock}`);
-
-//       switch (++loopIndex) {
-//         case lastLoop-1:
-//           api.setGreeting(handle, "Goodbye, until we meet again",hook[6]);
-//           break;
-
-//         case lastLoop:
-//           api.close(handle,0,hook[7]);
-//           break;
-//       }
-//     } else {
-//       log.error(`Error value from getContinuousGreeting() is ${response.status}`);
-//     }
-//   });
