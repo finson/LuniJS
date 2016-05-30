@@ -8,8 +8,6 @@
 const log4js = require("log4js");
 
 const RDD = require("../lib/RemoteDeviceDriver");
-const rddErr = require("../lib/RDDStatus");
-const rddCmd = require("../lib/RDDCommand");
 
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");

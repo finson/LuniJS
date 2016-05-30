@@ -8,8 +8,6 @@
 const log4js = require("log4js");
 
 const RDD = require("../lib/RemoteDeviceDriver");
-const RDDErr = require("../lib/RDDStatus");
-const RDDCmd = require("../lib/RDDCommand");
 const RDDAPI = require("../lib/HelloAPI");
 
 const path = require("path");
@@ -102,7 +100,7 @@ let step = [
 
 (apiResult) => {
   log.info(`${pc}: Begin step processing.`);
-  api.open(unitName,RDDCmd.DAF.FORCE,0);
+  api.open(unitName,RDD.DAF.FORCE,0);
 },
 
 (apiResult) => {

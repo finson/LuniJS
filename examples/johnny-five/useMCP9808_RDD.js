@@ -10,8 +10,6 @@ const five = require("johnny-five");
 const fn = require("../node_modules/johnny-five/lib/fn");
 
 const RDD = require("../RemoteDeviceDriver");
-const rddErr = require("../RDDStatus");
-const rddCmd = require("../RDDCommand");
 
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");

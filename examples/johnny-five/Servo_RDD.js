@@ -10,8 +10,6 @@ const log4js = require("log4js");
 const five = require("johnny-five");
 
 const RDD = require("../RemoteDeviceDriver");
-const rddErr = require("../RDDStatus");
-const rddCmd = require("../RDDCommand");
 
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
@@ -53,11 +51,11 @@ let Servo_RDD = {
         if (response.status >= 0) {
           logger.debug(`Status value from open() is ${response.status}`);
           this.rdd.handle = response.status;
-          dd.read(this.rdd.handle,rddCmd.CDR.DriverVersion,256,(response) => {
+          dd.read(this.rdd.handle,RDD.CDR.DriverVersion,256,(response) => {
             logger.trace(`readCB callback invoked.`);
             if (response.status >= 0) {
               logger.debug(`Status value from read() is ${response.status}`);
-              this.rdd.sv = new rddCmd.SemVer(response.datablock);
+              this.rdd.sv = new RDD.SemVer(response.datablock);
               logger.info(`DeviceDriver '${this.rdd.sv.toString()}' is open on logical unit '${this.rdd.unit}' with handle ${this.rdd.handle}`);
               dd.write(this.rdd.handle,reg.PIN,2,[this.pin,0],(response) => {
                 logger.trace(`writeCB callback invoked after setting pin = ${this.pin}.`);

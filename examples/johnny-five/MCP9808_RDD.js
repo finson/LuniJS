@@ -10,8 +10,6 @@ const log4js = require("log4js");
 const five = require("johnny-five");
 
 const RDD = require("../RemoteDeviceDriver");
-const rddErr = require("../RDDStatus");
-const rddCmd = require("../RDDCommand");
 
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
@@ -63,7 +61,7 @@ let MCP9808_RDD = {
           } else {
             logger.debug(`Status value from open() is ${response.status}`);
             rdd.handle = response.status;
-            dd.read(rdd.handle,0,rddCmd.CDR.DriverVersion,256,rdd.hook[1]);
+            dd.read(rdd.handle,0,RDD.CDR.DriverVersion,256,rdd.hook[1]);
           }
         },
 
@@ -75,9 +73,9 @@ let MCP9808_RDD = {
             throw new Error(`Read error during init (1): ${response.status}.`);
           } else {
             logger.debug(`Status value from read() is ${response.status}`);
-            rdd.sv = new rddCmd.SemVer(response.datablock);
+            rdd.sv = new RDD.SemVer(response.datablock);
             logger.info(`DeviceDriver '${rdd.sv.toString()}' is open on logical unit '${rdd.unit}' with handle ${rdd.handle}`);
-            dd.read(rdd.handle,0,rddCmd.CDR.Stream,2,rdd.hook[2]);
+            dd.read(rdd.handle,0,RDD.CDR.Stream,2,rdd.hook[2]);
           }
         },
 
@@ -95,7 +93,7 @@ let MCP9808_RDD = {
             buf.writeUInt32LE(0,0);
             buf.writeUInt32LE(rdd.freq,4);
             logger.trace(`rdd.freq: ${rdd.freq}`);
-            dd.write(rdd.handle,0,rddCmd.CDR.Intervals,8,buf,rdd.hook[3]);
+            dd.write(rdd.handle,0,RDD.CDR.Intervals,8,buf,rdd.hook[3]);
           }
         },
 
@@ -107,7 +105,7 @@ let MCP9808_RDD = {
             throw new Error(`Write error during init (3): ${response.status}.`);
           } else {
             logger.debug(`Status value from write() is ${response.status}`);
-            dd.read(rdd.handle,0,rddCmd.CDR.Intervals,8,rdd.hook[4]);
+            dd.read(rdd.handle,0,RDD.CDR.Intervals,8,rdd.hook[4]);
           }
         },
 
@@ -121,7 +119,7 @@ let MCP9808_RDD = {
             logger.debug(`Status value from read() is ${response.status}`);
             logger.debug(`micros: ${response.datablock.readUInt32LE(0)}`);
             logger.debug(`millis: ${response.datablock.readUInt32LE(4)}`);
-            dd.read(rdd.handle,rddCmd.DAF.MILLI_RUN,rddCmd.CDR.Stream,2,rdd.hook[5]);
+            dd.read(rdd.handle,RDD.DAF.MILLI_RUN,RDD.CDR.Stream,2,rdd.hook[5]);
           }
         },
 
