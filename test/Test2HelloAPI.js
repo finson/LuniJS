@@ -126,7 +126,8 @@ let step = [
 
 (apiResult) => {
   if (apiResult.eventType === "close") {
-    log.info(`Closed handle ${apiResult.handle}.`);
+    log.info(`Closed handle ${apiResult.handle}.  Goodbye.`);
+    firmataBoard.transport.close();
   }
 }
 ];
