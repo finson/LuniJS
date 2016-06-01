@@ -11,7 +11,7 @@ const log4js = require("log4js");
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
 const log = log4js.getLogger(thisModule);
-log.setLevel('DEBUG');
+log.setLevel('INFO');
 
 class Sequencer extends EventEmitter {
 
