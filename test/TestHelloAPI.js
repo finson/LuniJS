@@ -52,7 +52,7 @@ const init = () => {
     log.debug(`Sequencer is created.`);
 
     api.on("error", (apiError) => {
-      log.error(apiError);
+      log.error(`Error ${RDD.SC[apiError.status]} (${apiError.status}) ${RDD.SC[apiError.msg]} on handle ${apiError.handle}.`);
     });
 
     seq.on("done", (apiResult) => {
