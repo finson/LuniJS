@@ -89,21 +89,21 @@ let step = [
 
 (apiResult) => {
   log.info(`${unitName} attached to servo.`);
-  api.to(handle,0);
+  api.to(handle,20);
 },
 
 (apiResult) => {
-  log.info(`requested servo move to 0.`);
-  setTimeout(() => {api.to(handle,180);},1000);
+  log.info(`requested servo move to 20.`);
+  setTimeout(() => {api.to(handle,160);},1000);
 },
 
 (apiResult) => {
-  log.info(`requested servo move to 180.`);
-  setTimeout(() => {api.to(handle,0);},1000);
+  log.info(`requested servo move to 160.`);
+  setTimeout(() => {api.to(handle,90);},1000);
 },
 
 (apiResult) => {
-  log.info(`requested servo move to 0.`);
+  log.info(`requested servo move to 90.`);
   setTimeout(() => {api.close(handle);},1000);
 },
 
