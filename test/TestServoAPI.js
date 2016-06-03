@@ -7,16 +7,15 @@
 
 
 const log4js = require("log4js");
-
-const RDD = require("../lib/RemoteDeviceDriver");
-const RDDAPI = require("../lib/ServoAPI");
-const Sequencer = require("./Sequencer").Sequencer;
-
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
 const log = log4js.getLogger(thisModule);
 log.setLevel('TRACE');
 
+const API = require("../lib/ServoAPI");
+const RDD = API.RDD;
+
+const Sequencer = require("./Sequencer").Sequencer;
 const firmata = require("firmata");
 
 const portName = "COM46";
@@ -34,7 +33,6 @@ let pc;
 let opts;
 
 // Set up
-//["open", "read", "write", "close", "read-continuous"]
 
 const init = () => {
   opts = {};
@@ -45,7 +43,7 @@ const init = () => {
     proxyRDD = new RDD.RemoteDeviceDriver(opts);
     log.debug(`RemoteDeviceDriver is ready.`);
 
-    api = new RDDAPI.ServoAPI({driver : proxyRDD});
+    api = new API.ServoAPI({driver : proxyRDD});
     log.debug(`ServoAPI is created.`);
 
     seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
@@ -107,27 +105,6 @@ let step = [
   setTimeout(() => {api.close(handle);},1000);
 },
 
-// (apiResult) => {
-//   log.info(`${unitName} says ${apiResult.data}`);
-//   api.setIntervals(handle,null,1000);
-// },
-
-// (apiResult) => {
-//   log.info(`New intervals have been set.`);
-//   api.getContinuousGreeting(handle);
-// },
-
-// (apiResult) => {
-//   log.info(`Continuous greeting started.`);
-//   if (exitAtEnd) {
-//     api.close(handle);
-//   } else {
-//     api.on("read-continuous", (apiResult) => {
-//       log.info(`${unitName} says ${apiResult.data}`);
-//     });
-//   }
-// },
-
 (apiResult) => {
   if (apiResult.eventType === "close") {
     log.info(`Closed handle ${apiResult.handle}.  Goodbye.`);
@@ -139,4 +116,3 @@ let step = [
 // Start the engine running
 
 init();
-

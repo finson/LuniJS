@@ -7,16 +7,15 @@
 
 
 const log4js = require("log4js");
-
-const RDD = require("../lib/RemoteDeviceDriver");
-const RDDAPI = require("../lib/MCP9808API");
-const Sequencer = require("./Sequencer").Sequencer;
-
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
 const log = log4js.getLogger(thisModule);
 log.setLevel('TRACE');
 
+const API = require("../lib/MCP9808API");
+const RDD = API.RDD;
+
+const Sequencer = require("./Sequencer").Sequencer;
 const firmata = require("firmata");
 
 const portName = "COM42";
@@ -44,14 +43,14 @@ const init = () => {
     proxyRDD = new RDD.RemoteDeviceDriver(opts);
     log.debug(`RemoteDeviceDriver is ready.`);
 
-    api = new RDDAPI.MCP9808API({driver : proxyRDD});
+    api = new API.MCP9808API({driver : proxyRDD});
     log.debug(`MCP9808API is created.`);
 
     seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
     log.debug(`Sequencer is created.`);
 
-    api.on("error", (apiError) => {
-      log.error(apiError);
+    seq.on("error", (apiError) => {
+      log.error(`Error ${RDD.SC[apiError.status].sym} (${apiError.status}) ${RDD.SC[apiError.status].msg}.`);
     });
 
     seq.on("done", (apiResult) => {
@@ -124,4 +123,3 @@ let step = [
 // Start the engine running
 
 init();
-
