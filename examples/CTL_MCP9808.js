@@ -18,8 +18,6 @@ const RDD = API.RDD;
 const five = require("johnny-five");
 const Sequencer = require("../lib/Sequencer").Sequencer;
 
-const ctl = {};
-
 /**
  * Create a CTL_MCP9808 Controller object for use with a Thermometer Component.
  *
@@ -47,11 +45,6 @@ let CTL_MCP9808 = {
       let api = new API.MCP9808API({driver : proxyRDD});
       log.debug(`MCP9808API is created.`);
 
-      api.on("read-continuous", (apiResult) => {
-        log.trace(`${unitName} says temp is ${apiResult.C}°C, ${apiResult.F}°F, ${apiResult.K}°K.`);
-        datahandler(apiResult.C);
-      });
-
       let seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
       log.debug(`Sequencer is created.`);
 
@@ -60,10 +53,13 @@ let CTL_MCP9808 = {
       });
 
       seq.on("done", (apiResult) => {
-          log.debug(`Initialization steps completed.`);
-        }
-      );
+        log.debug(`Initialization steps completed.`);
+      });
 
+      api.on("read-continuous", (apiResult) => {
+        log.trace(`${unitName} says temp is ${apiResult.C}°C, ${apiResult.F}°F, ${apiResult.K}°K.`);
+        datahandler(apiResult.C);
+      });
 
       let step = [
 

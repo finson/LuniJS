@@ -12,7 +12,6 @@ const log = log4js.getLogger(thisModule);
 log.setLevel('TRACE');
 
 const five = require("johnny-five");
-//const fn = require("../node_modules/johnny-five/lib/fn");
 
 // Create and initialize a board object
 

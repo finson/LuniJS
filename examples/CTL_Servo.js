@@ -6,14 +6,19 @@
 // Doug Johnson, April 2016
 
 const log4js = require("log4js");
-const five = require("johnny-five");
-
-const RDD = require("../RemoteDeviceDriver");
-
 const path = require("path");
 const thisModule = path.basename(module.filename,".js");
-const logger = log4js.getLogger(thisModule);
-logger.setLevel('TRACE');
+const log = log4js.getLogger(thisModule);
+log.setLevel('TRACE');
+
+const API = require("../lib/ServoAPI");
+const RDD = API.RDD;
+
+const five = require("johnny-five");
+const Sequencer = require("../lib/Sequencer").Sequencer;
+
+let api;
+let handle;
 
 /**
  * Create a CTL_Servo Controller object for use with a Servo Component.
@@ -22,87 +27,58 @@ let CTL_Servo = {
 
   initialize: {
     value: function(opts) {
-      // Can an externally defined Controller get at the state Map
-      // defined in the associated Component?
-      // let state = five.Servo.priv.get(this);
-      // I'll use a single property 'rdd' instead ...
-      this.rdd = {};
+      handle = 0;
 
-      let reg = {
-        PIN: 256,
-        RANGE_MICROSECONDS: 257,
-        POSITION_DEGREES: 258,
-        POSITION_MICROSECONDS: 259
-      };
-      this.rdd.reg = reg;
+      let board = opts.board || five.Board.mount();
 
-      this.rdd.openFlags = opts.custom.flags || 1;
-      this.rdd.unit = opts.custom.unit || "Servo:0";
-      this.rdd.board = opts.board || five.Board.mount();
+      let unitName = opts.custom.unit || "Servo:0";
+      let openFlags = opts.custom.flags || 1;
+      let openOpts = opts.custom.opts || 0;
+      let freq = opts.freq || 250;
 
-      logger.trace(`Mode check: isServo(${this.pin}) is ${this.board.pins.isServo(this.pin)}`);
+      let proxyRDD = new RDD.RemoteDeviceDriver({board: board});
+      log.debug(`RemoteDeviceDriver is created.`);
 
-      let dd =  new RDD.RemoteDeviceDriver({board: this.rdd.board, skipCapabilities: false});
-      this.rdd.dd = dd;
-      this.rdd.handle = 0;
-      dd.open(this.rdd.unit,this.rdd.openFlags,(response) => {
-        logger.trace(`Callback openCB invoked.`);
-        if (response.status >= 0) {
-          logger.debug(`Status value from open() is ${response.status}`);
-          this.rdd.handle = response.status;
-          dd.read(this.rdd.handle,RDD.CDR.DriverVersion,256,(response) => {
-            logger.trace(`readCB callback invoked.`);
-            if (response.status >= 0) {
-              logger.debug(`Status value from read() is ${response.status}`);
-              this.rdd.sv = new RDD.SemVer(response.datablock);
-              logger.info(`DeviceDriver '${this.rdd.sv.toString()}' is open on logical unit '${this.rdd.unit}' with handle ${this.rdd.handle}`);
-              dd.write(this.rdd.handle,reg.PIN,2,[this.pin,0],(response) => {
-                logger.trace(`writeCB callback invoked after setting pin = ${this.pin}.`);
-                if (response.status >= 0) {
-                  logger.debug(`Status value from write() is ${response.status}`);
-                  logger.info(`Logical unit '${this.rdd.unit}' (handle ${this.rdd.handle}) is attached to pin ${this.pin}.`);
-                  this.rdd.board.emit("servo_initialized");
-                } else {
-                  logger.error(`Error value from write() is ${response.status}`);
-                }
-              });
-            } else {
-              logger.error(`Error value from read() is ${response.status}`);
-            }
-          });
-        } else {
-          logger.error(`Error value from open() is ${response.status}`);
-        }
+      api = new API.ServoAPI({driver : proxyRDD});
+      log.debug(`ServoAPI is created.`);
+
+      let seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
+      log.debug(`Sequencer is created.`);
+
+      seq.on("error", (apiError) => {
+        log.error(`Error ${RDD.SC[apiError.status].sym} (${apiError.status}) ${RDD.SC[apiError.status].msg}.`);
       });
-    }
-  },
 
-  servoWrite: {
+      seq.on("done", (apiResult) => {
+        log.debug(`Initialization steps completed.`);
+      });
+
+      log.trace(`Mode check: isServo(${this.pin}) is ${this.board.pins.isServo(this.pin)}`);
+
+      let step = [
+
+        (apiResult) => {
+          log.debug(`Begin Servo controller initialization processing.`);
+          api.open(unitName,RDD.DAF.FORCE,0);
+        },
+
+        (apiResult) => {
+          log.trace(`Opened ${apiResult.unitName} with handle ${apiResult.handle}.`);
+          handle = apiResult.handle;
+          api.attach(handle, 3);
+        },
+
+        (apiResult) => {
+          log.trace(`Servo attached to pin ${this.pin}.`);
+        }
+      ];
+
+      seq.start(step);
+    }},
+
+   servoWrite: {
     value: function(pin, degrees) {
-
-      // If servo is already in position there is nothing to do
-
-      if (this.last && this.last.degrees === degrees) {
-        return this;
-      }
-
-      // make sure pos is an integer value and then put it in a byte buffer
-
-      let pos = degrees | 0;
-      let buf = new Buffer(2);
-      buf.writeInt16LE(pos,0);
-
-      // Tell servo to move to the new position
-
-      this.rdd.dd.write(this.rdd.handle,this.rdd.reg.POSITION_DEGREES,2,buf,(response) => {
-        logger.trace(`writeCB callback invoked after servo move to ${pos} degrees.`);
-        if (response.status >= 0) {
-          logger.debug(`Status value from write() is ${response.status}`);
-        } else {
-          logger.error(`Error value from write() is ${response.status}`);
-        }
-      });
-
+      api.to(handle, degrees);
     }
   }
 };
