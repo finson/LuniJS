@@ -15,7 +15,7 @@ log.setLevel('TRACE');
 const API = require("../lib/ServoAPI");
 const RDD = API.RDD;
 
-const Sequencer = require("./Sequencer").Sequencer;
+const Sequencer = require("../lib/Sequencer").Sequencer;
 const firmata = require("firmata");
 
 const portName = "COM46";
