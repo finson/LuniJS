@@ -24,7 +24,7 @@ const serialPortName = "COM44";
 // const serialPortName = "/dev/cu.usbmodem621";
 
 const board = new five.Board({port: serialPortName, repl: false});
-const componentController = require("../servo/Servo_RDD").Servo_RDD;
+const componentController = require("../servo/CTL_Servo").CTL_Servo;
 
 logger.trace(`board.id: ${board.id}`);
 

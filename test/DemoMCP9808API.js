@@ -15,7 +15,7 @@ log.setLevel('TRACE');
 const API = require("../lib/MCP9808API");
 const RDD = API.RDD;
 
-const Sequencer = require("./Sequencer").Sequencer;
+const Sequencer = require("../lib/Sequencer").Sequencer;
 const firmata = require("firmata");
 
 const portName = "COM42";
@@ -41,7 +41,7 @@ const init = () => {
 
     opts = {board: firmataBoard};
     proxyRDD = new RDD.RemoteDeviceDriver(opts);
-    log.debug(`RemoteDeviceDriver is ready.`);
+    log.debug(`RemoteDeviceDriver is created.`);
 
     api = new API.MCP9808API({driver : proxyRDD});
     log.debug(`MCP9808API is created.`);

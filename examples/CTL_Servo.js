@@ -1,7 +1,6 @@
 // This module defines a Johnny-Five Controller object for use with the
 // J-5 Servo Component and a DDServo device driver on an Arduino.
 //
-//
 // This program is strict-mode throughout.
 //
 // Doug Johnson, April 2016
@@ -17,9 +16,9 @@ const logger = log4js.getLogger(thisModule);
 logger.setLevel('TRACE');
 
 /**
- * Create a Servo_RDD Controller object for use with a Servo Component.
+ * Create a CTL_Servo Controller object for use with a Servo Component.
  */
-let Servo_RDD = {
+let CTL_Servo = {
 
   initialize: {
     value: function(opts) {
@@ -108,4 +107,4 @@ let Servo_RDD = {
   }
 };
 
-module.exports = {Servo_RDD};
+module.exports = {CTL_Servo};
