@@ -104,7 +104,11 @@
   </g>
  </g>
  <g visibility="visible" id="Slide_1_page1">
-  <g id="Drawing_3">
+  <g>
+   <path fill="rgb(255,255,255)" stroke="none" d="M 13970,20828 L 254,20828 254,254 27686,254 27686,20828 13970,20828 Z"/>
+   <path fill="none" stroke="rgb(128,128,128)" id="Drawing_3_0" stroke-linejoin="round" d="M 13970,20828 L 254,20828 254,254 27686,254 27686,20828 13970,20828 Z"/>
+  </g>
+  <g id="Drawing_4">
    <path fill="rgb(148,189,94)" stroke="none" d="M 14891,8344 L 7260,8344 7260,2040 22522,2040 22522,8344 14891,8344 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 14891,8344 L 7260,8344 7260,2040 22522,2040 22522,8344 14891,8344 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="635" font-style="normal" font-weight="400">
@@ -112,7 +116,7 @@
      <tspan x="11530 11987 12339 12690 13041 13181 13499 13676 14134 14451 14802 15014 15158 15581 15933 16284 16424 16563 16881 17232 17410 17550 17901">Nodejs User Application</tspan></text>
    </g>
   </g>
-  <g id="Drawing_4">
+  <g id="Drawing_5">
    <path fill="rgb(207,231,245)" stroke="none" d="M 17581,8344 L 12639,8344 12639,5872 22522,5872 22522,8344 17581,8344 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 17581,8344 L 12639,8344 12639,5872 22522,5872 22522,8344 17581,8344 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -120,7 +124,7 @@
      <tspan x="15511 15816 16053 16408 16646 16764 17001 17120 17424 17662 17869 17962 18174 18411 18529 18834 18974 19067 19274 19512">Remote Device Driver</tspan></text>
    </g>
   </g>
-  <g id="Drawing_5">
+  <g id="Drawing_6">
    <path fill="rgb(255,51,102)" fill-opacity="0.502" stroke="rgb(255,255,255)" stroke-opacity="0.502" d="M 18827,17121 L 15038,17121 15038,16040 22616,16040 22616,17121 18827,17121 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 18827,17121 L 15038,17121 15038,16040 22616,16040 22616,17121 18827,17121 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -128,7 +132,7 @@
      <tspan x="17672 17977 18214 18421 18514 18726 18963 19179 19416 19653 19746">DeviceTable</tspan></text>
    </g>
   </g>
-  <g id="Drawing_6">
+  <g id="Drawing_7">
    <path fill="rgb(255,51,102)" fill-opacity="0.502" stroke="rgb(255,255,255)" stroke-opacity="0.502" d="M 16150,18899 L 15062,18899 15062,17883 17238,17883 17238,18899 16150,18899 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 16150,18899 L 15062,18899 15062,17883 17238,17883 17238,18899 16150,18899 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="353" font-style="normal" font-weight="400">
@@ -136,7 +140,7 @@
      <tspan x="15498 15752 16006 16260 16455 16531 16607">DDHello</tspan></text>
    </g>
   </g>
-  <g id="Drawing_7">
+  <g id="Drawing_8">
    <path fill="rgb(128,0,128)" fill-opacity="0.2" stroke="rgb(255,255,255)" stroke-opacity="0.2" d="M 18827,16044 L 15038,16044 15038,14520 22616,14520 22616,16044 18827,16044 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 18827,16044 L 15038,16044 15038,14520 22616,14520 22616,16044 18827,16044 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -144,7 +148,7 @@
      <tspan x="17462 17767 18004 18211 18304 18516 18753 19011 19105 19244 19600 19837 19955">DeviceFirmata</tspan></text>
    </g>
   </g>
-  <g id="Drawing_8">
+  <g id="Drawing_9">
    <path fill="rgb(230,230,255)" stroke="none" d="M 13467,14522 L 4318,14522 4318,12744 22616,12744 22616,14522 13467,14522 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 13467,14522 L 4318,14522 4318,12744 22616,12744 22616,14522 13467,14522 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -152,7 +156,7 @@
      <tspan x="11484 11789 12026 12263 12386 12479 12712 12949 13088 13326 13563 13656 13893 14011 14270 14363 14502 14858 15095 15214">Configurable Firmata</tspan></text>
    </g>
   </g>
-  <g id="Drawing_9">
+  <g id="Drawing_10">
    <path fill="rgb(230,230,255)" stroke="none" d="M 9698,16010 L 7960,16010 7960,14522 11435,14522 11435,16010 9698,16010 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 9698,16010 L 7960,16010 7960,14522 11435,14522 11435,16010 9698,16010 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -160,7 +164,7 @@
      <tspan x="8316 8519 8583 8739 8803 8883 9040 9103 9184 9404 9561 9641 9798 9954 10035 10115 10289 10352 10445 10687 10843 10924">Digital Output Firmata</tspan></text>
    </g>
   </g>
-  <g id="Drawing_10">
+  <g id="Drawing_11">
    <path fill="rgb(255,51,102)" fill-opacity="0.502" stroke="rgb(255,255,255)" stroke-opacity="0.502" d="M 16149,17883 L 15060,17883 15060,17121 17238,17121 17238,17883 16149,17883 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 16149,17883 L 15060,17883 15060,17121 17238,17121 17238,17883 16149,17883 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -168,7 +172,7 @@
      <tspan x="15343 15546 15703 15843 15906 16050 16207 16410 16503 16566 16706 16863">DeviceDriver</tspan></text>
    </g>
   </g>
-  <g id="Drawing_11">
+  <g id="Drawing_12">
    <path fill="rgb(255,51,102)" fill-opacity="0.502" stroke="rgb(255,255,255)" stroke-opacity="0.502" d="M 18838,18899 L 17750,18899 17750,17883 19925,17883 19925,18899 18838,18899 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 18838,18899 L 17750,18899 17750,17883 19925,17883 19925,18899 18838,18899 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="353" font-style="normal" font-weight="400">
@@ -176,7 +180,7 @@
      <tspan x="17804 18058 18312 18604 18858 19091 19286 19480 19675">DDMCP9808</tspan></text>
    </g>
   </g>
-  <g id="Drawing_12">
+  <g id="Drawing_13">
    <path fill="rgb(255,51,102)" fill-opacity="0.502" stroke="rgb(255,255,255)" stroke-opacity="0.502" d="M 18836,17883 L 17747,17883 17747,17121 19925,17121 19925,17883 18836,17883 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 18836,17883 L 17747,17883 17747,17121 19925,17121 19925,17883 18836,17883 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -184,7 +188,7 @@
      <tspan x="18030 18233 18390 18530 18593 18737 18894 19097 19190 19253 19393 19550">DeviceDriver</tspan></text>
    </g>
   </g>
-  <g id="Drawing_13">
+  <g id="Drawing_14">
    <path fill="rgb(255,51,102)" fill-opacity="0.502" stroke="rgb(255,255,255)" stroke-opacity="0.502" d="M 21509,18899 L 20421,18899 20421,17883 22597,17883 22597,18899 21509,18899 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 21509,18899 L 20421,18899 20421,17883 22597,17883 22597,18899 21509,18899 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="353" font-style="normal" font-weight="400">
@@ -192,7 +196,7 @@
      <tspan x="20866 21120 21374 21666 21861 21958">DDMeta</tspan></text>
    </g>
   </g>
-  <g id="Drawing_14">
+  <g id="Drawing_15">
    <path fill="rgb(255,51,102)" fill-opacity="0.502" stroke="rgb(255,255,255)" stroke-opacity="0.502" d="M 21508,17883 L 20419,17883 20419,17121 22597,17121 22597,17883 21508,17883 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 21508,17883 L 20419,17883 20419,17121 22597,17121 22597,17883 21508,17883 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -200,7 +204,7 @@
      <tspan x="20702 20905 21062 21202 21265 21409 21566 21769 21862 21925 22065 22222">DeviceDriver</tspan></text>
    </g>
   </g>
-  <g id="Drawing_15">
+  <g id="Drawing_16">
    <path fill="rgb(230,230,255)" stroke="none" d="M 13210,16010 L 12202,16010 12202,14522 14218,14522 14218,16010 13210,16010 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 13210,16010 L 12202,16010 12202,14522 14218,14522 14218,16010 13210,16010 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="StarSymbol embedded" font-size="282" font-style="normal" font-weight="400">
@@ -208,7 +212,7 @@
      <tspan x="12785 13069 13352"></tspan></text>
    </g>
   </g>
-  <g id="Drawing_16">
+  <g id="Drawing_17">
    <path fill="rgb(230,230,255)" stroke="none" d="M 13425,10122 L 4328,10122 4328,8344 22522,8344 22522,10122 13425,10122 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 13425,10122 L 4328,10122 4328,8344 22522,8344 22522,10122 13425,10122 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -216,7 +220,7 @@
      <tspan x="12399 12657 12750 12890 13246 13483 13601 13838 13957 14169">Firmata JS</tspan></text>
    </g>
   </g>
-  <g id="Drawing_17">
+  <g id="Drawing_18">
    <path fill="rgb(207,231,245)" fill-opacity="0.749" stroke="rgb(255,255,255)" stroke-opacity="0.749" d="M 19209,8898 L 15896,8898 15896,7120 22522,7120 22522,8898 19209,8898 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 19209,8898 L 15896,8898 15896,7120 22522,7120 22522,8898 19209,8898 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -224,7 +228,7 @@
      <tspan x="16360 16644 16851 17063 17300 17507 17626 17931 18168 18375 18468 18680 18917 19035 19340 19577 19789 20026 20263 20500 20712 20949 21067 21372 21609 21846">Sysex Device Response Hook</tspan></text>
    </g>
   </g>
-  <g id="Drawing_18">
+  <g id="Drawing_19">
    <path fill="rgb(207,231,245)" stroke="none" d="M 14009,5872 L 12639,5872 12639,5110 15378,5110 15378,5872 14009,5872 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 14009,5872 L 12639,5872 12639,5110 15378,5110 15378,5872 14009,5872 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -232,7 +236,7 @@
      <tspan x="13346 13549 13706 13846 13909 14053 14210 14400 14591">DeviceAPI</tspan></text>
    </g>
   </g>
-  <g id="Drawing_19">
+  <g id="Drawing_20">
    <path fill="rgb(207,231,245)" stroke="none" d="M 14010,5088 L 12642,5088 12642,4072 15378,4072 15378,5088 14010,5088 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 14010,5088 L 12642,5088 12642,4072 15378,4072 15378,5088 14010,5088 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -240,7 +244,7 @@
      <tspan x="13185 13490 13727 13820 13913 14150 14434 14717">HelloAPI</tspan></text>
    </g>
   </g>
-  <g id="Drawing_20">
+  <g id="Drawing_21">
    <path fill="rgb(207,231,245)" stroke="none" d="M 17775,5872 L 16404,5872 16404,5110 19146,5110 19146,5872 17775,5872 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 17775,5872 L 16404,5872 16404,5110 19146,5110 19146,5872 17775,5872 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -248,7 +252,7 @@
      <tspan x="17113 17316 17473 17613 17676 17820 17977 18167 18358">DeviceAPI</tspan></text>
    </g>
   </g>
-  <g id="Drawing_21">
+  <g id="Drawing_22">
    <path fill="rgb(207,231,245)" stroke="none" d="M 17777,5088 L 16407,5088 16407,4072 19146,4072 19146,5088 17777,5088 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 17777,5088 L 16407,5088 16407,4072 19146,4072 19146,5088 17777,5088 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -256,7 +260,7 @@
      <tspan x="16489 16840 17145 17429 17666 17903 18140 18377 18661 18944">MCP9808API</tspan></text>
    </g>
   </g>
-  <g id="Drawing_22">
+  <g id="Drawing_23">
    <path fill="rgb(207,231,245)" stroke="none" d="M 21153,5872 L 19783,5872 19783,5110 22522,5110 22522,5872 21153,5872 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 21153,5872 L 19783,5872 19783,5110 22522,5110 22522,5872 21153,5872 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -264,7 +268,7 @@
      <tspan x="20490 20693 20850 20990 21053 21197 21354 21544 21735">DeviceAPI</tspan></text>
    </g>
   </g>
-  <g id="Drawing_23">
+  <g id="Drawing_24">
    <path fill="rgb(207,231,245)" stroke="none" d="M 21154,5088 L 19786,5088 19786,4072 22522,4072 22522,5088 21154,5088 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 21154,5088 L 19786,5088 19786,4072 22522,4072 22522,5088 21154,5088 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -273,9 +277,9 @@
    </g>
   </g>
   <g>
-   <path fill="none" stroke="rgb(0,0,0)" id="Drawing_24_0" stroke-width="203" stroke-linejoin="round" stroke-dasharray="51,51,51,51" d="M 13467,12744 C 13467,10778 13425,12088 13425,10122"/>
+   <path fill="none" stroke="rgb(0,0,0)" id="Drawing_25_0" stroke-width="203" stroke-linejoin="round" stroke-dasharray="51,51,51,51" d="M 13467,12744 C 13467,10778 13425,12088 13425,10122"/>
   </g>
-  <g id="Drawing_25">
+  <g id="Drawing_26">
    <path fill="rgb(230,230,255)" stroke="none" d="M 6077,16010 L 4318,16010 4318,14522 7836,14522 7836,16010 6077,16010 Z"/>
    <path fill="none" stroke="rgb(128,128,128)" stroke-linejoin="round" d="M 6077,16010 L 4318,16010 4318,14522 7836,14522 7836,16010 6077,16010 Z"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="282" font-style="normal" font-weight="400">
@@ -284,30 +288,30 @@
    </g>
   </g>
   <g>
-   <path fill="none" stroke="rgb(0,0,0)" id="Drawing_26_0" stroke-linejoin="round" stroke-dasharray="508,508,508,508" d="M 2540,11430 L 25908,11430"/>
+   <path fill="none" stroke="rgb(0,0,0)" id="Drawing_27_0" stroke-linejoin="round" stroke-dasharray="508,508,508,508" d="M 2540,11430 L 25908,11430"/>
   </g>
-  <g id="Drawing_27">
+  <g id="Drawing_28">
    <rect fill="none" stroke="none" x="1270" y="10260" width="1587" height="726"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
     <text x="1520" y="10766">
      <tspan x="1520 1825 1918 2011 2248 2485">Client</tspan></text>
    </g>
   </g>
-  <g id="Drawing_28">
+  <g id="Drawing_29">
    <rect fill="none" stroke="none" x="1271" y="11661" width="1375" height="726"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
     <text x="1521" y="12167">
      <tspan x="1521 1826 2063 2275">Host</tspan></text>
    </g>
   </g>
-  <g id="Drawing_29">
+  <g id="Drawing_30">
    <rect fill="none" stroke="none" x="23070" y="6561" width="1803" height="726"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
     <text x="23320" y="7067">
      <tspan x="23320 23557 23794 24031 24124 24336">LuniJS</tspan></text>
    </g>
   </g>
-  <g id="Drawing_30">
+  <g id="Drawing_31">
    <rect fill="none" stroke="none" x="23070" y="14062" width="4470" height="1200"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
     <text x="23320" y="14568">
@@ -316,14 +320,14 @@
      <tspan x="23320 23625 23862 24099 24222 24315 24548 24785 24924 25162 25399 25492 25729 25847 26106 26199 26338 26694 26931 27050">Configurable Firmata</tspan></text>
    </g>
   </g>
-  <g id="Drawing_31">
+  <g id="Drawing_32">
    <rect fill="none" stroke="none" x="23071" y="16963" width="2891" height="726"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
     <text x="23321" y="17469">
      <tspan x="23321 23605 23744 23981 24218 24312 24549 24786 24904 25141 25378 25615">Arduino Luni</tspan></text>
    </g>
   </g>
-  <g id="Drawing_32">
+  <g id="Drawing_33">
    <path fill="rgb(255,51,102)" fill-opacity="0.149" stroke="rgb(255,255,255)" stroke-opacity="0.149" d="M 3670,3651 L 1224,3651 1224,1504 6116,1504 6116,3651 3670,3651 Z"/>
    <rect fill="none" stroke="none" x="1224" y="1504" width="4893" height="2148"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="423" font-style="normal" font-weight="400">
@@ -337,7 +341,7 @@
      <tspan x="1474 1779 2016 2253 2486 2604 2816 3053 3290 3527 3739 3976">Doug Johnson</tspan></text>
    </g>
   </g>
-  <g id="Drawing_33">
+  <g id="Drawing_34">
    <rect fill="none" stroke="none" x="1016" y="3810" width="2065" height="494"/>
    <g fill="rgb(0,0,0)" stroke="none" font-family="Arial embedded" font-size="212" font-style="italic" font-weight="400">
     <text x="1266" y="4130">
