@@ -1,5 +1,7 @@
 {
+   "author" : "Doug Johnson <strix@whidbey.com>",
    "bugs" : {
+      "url" : "https://github.com/finson-release/LuniJS/"
    },
    "dependencies" : {
       "firmata" : ">=0.11",
