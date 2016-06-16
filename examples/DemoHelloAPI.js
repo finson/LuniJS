@@ -35,7 +35,7 @@ let opts;
 // Set up
 
 const init = () => {
-  opts = {};
+  opts = {skipCapabilities: true};
   firmataBoard = new firmata.Board(portName,opts,() => {
     log.debug(`Board is ready.`);
 
