@@ -1,0 +1,3 @@
+ru=node --harmony --use_strict useServo_RDD.js
+rn=node --harmony --use_strict useMCP9808_RDD.js
+ro=node --harmony --use_strict $*
