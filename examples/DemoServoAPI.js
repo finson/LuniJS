@@ -82,7 +82,7 @@ let step = [
 (apiResult) => {
   log.info(`Opened ${apiResult.unitName} with handle ${apiResult.handle}.`);
   handle = apiResult.handle;
-  log.debug(`Mode check: isServo(3) is ${firmataBoard.pins.isServo(3)}`);
+  // log.debug(`Mode check: isServo(3) is ${firmataBoard.pins.isServo(3)}`);
   api.attach(handle,3,{});
 },
 
