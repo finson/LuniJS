@@ -106,4 +106,5 @@ let step = [
 
 // Start the engine running
 
+log.info(`Program ${thisModule} is running.`);
 init();
