@@ -99,19 +99,24 @@ let step = [
 (apiResult) => {
   log.debug(`One scan of data read. ${apiResult.data.length} values.`);
   log.debug(`Data values: ${apiResult.data}`);
-  api.close(handle);
+  api.setIntervals(handle,null,1000);
 },
 
-// (apiResult) => {
-//   log.info(`Continuous greeting started.`);
-//   if (exitAtEnd) {
-//     api.close(handle);
-//   } else {
-//     api.on("read-continuous", (apiResult) => {
-//       log.info(`${unitName} says ${apiResult.data}`);
-//     });
-//   }
-// },
+(apiResult) => {
+  log.info(`New intervals have been set.`);
+  api.readContinuousScans(handle);
+},
+
+(apiResult) => {
+  log.info(`Continuous scanning started.`);
+  if (exitAtEnd) {
+    api.close(handle);
+  } else {
+    api.on("read-continuous", (apiResult) => {
+      log.info(`${unitName} says ${apiResult.data}`);
+    });
+  }
+},
 
 (apiResult) => {
   if (apiResult.eventType === "close") {
