@@ -33,8 +33,8 @@ let pc;
 let opts;
 
 const channelDescriptors = [ API.DIR.INPUT,3,
-  API.OP.ANALOG, API.CONFIG.INPUT, 4,
   API.OP.ANALOG, API.CONFIG.INPUT, 6,
+  API.OP.ANALOG, API.CONFIG.INPUT, 7,
   API.OP.DIGITAL, API.CONFIG.INPUT, 5
  ];
 
