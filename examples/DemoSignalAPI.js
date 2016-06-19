@@ -33,12 +33,12 @@ let pc;
 let opts;
 
 // Pin numbers for Analog Input are analog pin numbers [0..15]
-// Pin numbers for other combinations are full-range digital pin numbers [0..TotalPins)
+// Pin numbers for other combinations are full-range digital pin numbers [0..TotalPins-1]
 
-const inputChannelDescriptors = [
+const inputChannels = [
   {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 6},
   {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 7},
-  {op: API.OP.DIGITAL, config: API.CONFIG.INPUT, pin: 5}
+  {op: API.OP.DIGITAL, config: API.CONFIG.INPUT, digitalPin: 5}
  ];
 
 const showPins = () => {
@@ -106,19 +106,11 @@ let step = [
 (apiResult) => {
   log.info(`Opened ${apiResult.unitName} with handle ${apiResult.handle}.`);
   handle = apiResult.handle;
-  let cd = [ API.DIR.INPUT, inputChannelDescriptors.length];
-  for (let c = 0; c < inputChannelDescriptors.length; c++) {
-    let acd = Object.assign({},inputChannelDescriptors[c]);
-    if (!acd.hasOwnProperty("pin")) {
-      acd.pin = firmataBoard.analogPins[acd.analogPin];
-    }
-    cd.push(acd);
-  }
-  api.setChannelList(handle, cd);
+  api.setChannelList(handle, API.DIR.INPUT, inputChannels);
 },
 
 (apiResult) => {
-  log.debug(`Channel descriptors written: ${inputChannelDescriptors}`);
+  log.debug(`Channel descriptors written: ${inputChannels}`);
   api.readOneScan(handle);
 },
 
