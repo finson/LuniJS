@@ -32,16 +32,33 @@ let handle;
 let pc;
 let opts;
 
-const channelDescriptors = [ API.DIR.INPUT,3,
-  API.OP.ANALOG, API.CONFIG.INPUT, 6,
-  API.OP.ANALOG, API.CONFIG.INPUT, 7,
-  API.OP.DIGITAL, API.CONFIG.INPUT, 5
+// Pin numbers for Analog Input are analog pin numbers [0..15]
+// Pin numbers for other combinations are full-range digital pin numbers [0..TotalPins)
+
+const inputChannelDescriptors = [
+  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 6},
+  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 7},
+  {op: API.OP.DIGITAL, config: API.CONFIG.INPUT, pin: 5}
  ];
+
+const showPins = () => {
+  log.debug(`Analog pins: ${firmataBoard.analogPins}`);
+  log.debug(`All pins:`);
+  for (let p=0; p<firmataBoard.pins.length; p++) {
+    let thePin = firmataBoard.pins[p];
+    let theAnalogPin = (thePin.analogChannel !== 127) ? thePin.analogChannel : '..';
+    let currentModeAndValue = '';
+    if (typeof thePin.mode !== 'undefined') {
+      currentModeAndValue = `, cur: m ${thePin.mode}, v ${thePin.value}`;
+    }
+    log.debug(`${p} [${theAnalogPin}] avail: ${thePin.supportedModes}${currentModeAndValue}`);
+  }
+};
 
 // Set up
 
 const init = () => {
-  opts = {skipCapabilities: true};
+  opts = {skipCapabilities: false};
   firmataBoard = new firmata.Board(portName,opts,() => {
     log.debug(`Board is ready.`);
 
@@ -82,17 +99,26 @@ let step = [
 
 (apiResult) => {
   log.info(`Begin step processing.`);
+  showPins();
   api.open(unitName,RDD.DAF.FORCE,0);
 },
 
 (apiResult) => {
   log.info(`Opened ${apiResult.unitName} with handle ${apiResult.handle}.`);
   handle = apiResult.handle;
-  api.setChannelList(handle, channelDescriptors);
+  let cd = [ API.DIR.INPUT, inputChannelDescriptors.length];
+  for (let c = 0; c < inputChannelDescriptors.length; c++) {
+    let acd = Object.assign({},inputChannelDescriptors[c]);
+    if (!acd.hasOwnProperty("pin")) {
+      acd.pin = firmataBoard.analogPins[acd.analogPin];
+    }
+    cd.push(acd);
+  }
+  api.setChannelList(handle, cd);
 },
 
 (apiResult) => {
-  log.debug(`Channel descriptors written: ${channelDescriptors}`);
+  log.debug(`Channel descriptors written: ${inputChannelDescriptors}`);
   api.readOneScan(handle);
 },
 
