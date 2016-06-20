@@ -18,7 +18,7 @@ const RDD = API.RDD;
 const Sequencer = require("../lib/Sequencer").Sequencer;
 const firmata = require("firmata");
 
-const portName = "COM46";
+const portName = "COM40";
 const unitName = "GPIO:0";
 const exitAtEnd = false;
 
@@ -36,9 +36,12 @@ let opts;
 // Pin numbers for other combinations are full-range digital pin numbers [0..TotalPins-1]
 
 const inputChannels = [
-  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 6},
-  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 7},
-  {op: API.OP.DIGITAL, config: API.CONFIG.INPUT, digitalPin: 5}
+  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 6},    // pot 0
+  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 7},    // pot 1
+  {op: API.OP.DIGITAL, config: API.CONFIG.INPUT, digitalPin: 5},  // sw 0
+  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 8},    // pot 2
+  {op: API.OP.ANALOG, config: API.CONFIG.INPUT, analogPin: 9},    // pot 3
+  {op: API.OP.DIGITAL, config: API.CONFIG.INPUT_PULLUP, digitalPin: 10}    // button 0
  ];
 
 const showPins = () => {
