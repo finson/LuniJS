@@ -120,6 +120,7 @@ let step = [
 (apiResult) => {
   log.debug(`One scan of data read. ${apiResult.data.length} values.`);
   log.debug(`Data values: ${apiResult.data}`);
+  showPins();
   api.setIntervals(handle,null,1000);
 },
 
