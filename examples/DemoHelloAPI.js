@@ -46,7 +46,7 @@ const init = () => {
     api = new API.HelloAPI({driver : proxyRDD});
     log.debug(`HelloAPI is created.`);
 
-    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
+    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"]);
     log.debug(`Sequencer is created.`);
 
     seq.on("error", (apiError) => {

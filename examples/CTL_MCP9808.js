@@ -45,7 +45,7 @@ let CTL_MCP9808 = {
       let api = new API.MCP9808API({driver : proxyRDD});
       log.debug(`MCP9808API is created.`);
 
-      let seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
+      let seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"]);
       log.debug(`Sequencer is created.`);
 
       seq.on("error", (apiError) => {

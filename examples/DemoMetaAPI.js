@@ -46,7 +46,7 @@ const init = () => {
     api = new API.MetaAPI({driver : proxyRDD});
     log.debug(`MetaAPI is created.`);
 
-    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
+    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"]);
     log.debug(`Sequencer is created.`);
 
     seq.on("error", (apiError) => {

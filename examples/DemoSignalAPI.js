@@ -72,7 +72,7 @@ const init = () => {
     api = new API.SignalAPI({driver : proxyRDD});
     log.debug(`SignalAPI is created.`);
 
-    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
+    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"]);
     log.debug(`Sequencer is created.`);
 
     seq.on("error", (apiError) => {

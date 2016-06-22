@@ -46,7 +46,7 @@ const init = () => {
     api = new API.ServoAPI({driver : proxyRDD});
     log.debug(`ServoAPI is created.`);
 
-    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"],{});
+    seq = new Sequencer(api,["open", "read", "write", "close", "read-continuous"]);
     log.debug(`Sequencer is created.`);
 
     seq.on("error", (apiError) => {
